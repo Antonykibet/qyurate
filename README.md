@@ -1,7 +1,7 @@
 
-  # AI Call Analytics SaaS Landing Page
+  # Qyurate Landing page
 
-  This is a code bundle for AI Call Analytics SaaS Landing Page. The original project is available at https://www.figma.com/design/BKHnsAyEadROxI0nNbUcUI/AI-Call-Analytics-SaaS-Landing-Page.
+  Informative and onboarding webapp for Qyurate prospects.
 
   ## Running the code
 
