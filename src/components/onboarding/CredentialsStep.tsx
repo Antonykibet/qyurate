@@ -6,6 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui
 import { Loader2, CheckCircle2, Store } from "lucide-react";
 import { OnboardingData } from "./OnboardingFlow";
 
+import apipost from "../../utils/api/api";
+import { BACKEND_API_ROUTES } from "../../utils/api/api_routes";
+
 interface CredentialsStepProps {
   data: OnboardingData;
   updateData: (data: Partial<OnboardingData>) => void;
@@ -24,32 +27,40 @@ export function CredentialsStep({
   const [isComplete, setIsComplete] = useState(false);
   const [creationStep, setCreationStep] = useState("");
 
+  async function send_onboarding_data(data: OnboardingData) {
+    const onboarding_endpoint = BACKEND_API_ROUTES.SITE_CONFIG
+    const resp = await apipost(onboarding_endpoint, data);
+    if (!resp) {
+        console.error("Error sending on boarding data:");
+        setIsCreating(false);
+        return;
+      }
+    console.log("Onboarding data sent successfully:", resp);
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     setIsCreating(true);
 
-    // Simulate site creation process
     const steps = [
-      { message: "Setting up your storefront...", delay: 1500 },
-      { message: "Configuring your design...", delay: 1500 },
-      { message: "Creating product catalogues...", delay: 1500 },
-      { message: "Finalizing your shop...", delay: 1500 },
+      { message: "Setting up your storefront...", function: send_onboarding_data(data)},
+      { message: "Finalizing your shop...", function: async() => {} },
     ];
 
     for (const step of steps) {
       setCreationStep(step.message);
-      await new Promise((resolve) => setTimeout(resolve, step.delay));
+      await step.function
     }
 
     setIsCreating(false);
     setIsComplete(true);
 
-    // Redirect after 2 seconds
-    setTimeout(() => {
-      // Here you would redirect to the actual shop or dashboard
-      window.location.href = `https://${data.businessName.toLowerCase().replace(/\s+/g, "")}.qyurate.com`;
-    }, 2000);
+    // // Redirect after 2 seconds
+    // setTimeout(() => {
+    //   // Here you would redirect to the actual shop or dashboard
+    //   window.location.href = `https://${data.businessName.toLowerCase().replace(/\s+/g, "")}.qyurate.com`;
+    // }, 2000);
   };
 
   const isFormValid = data.ownerName && data.email && data.password && data.password.length >= 8;
