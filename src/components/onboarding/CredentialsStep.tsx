@@ -27,9 +27,29 @@ export function CredentialsStep({
   const [isComplete, setIsComplete] = useState(false);
   const [creationStep, setCreationStep] = useState("");
 
+  function serialize_onboarding_data(data: OnboardingData) {
+    return {
+      owner_details: {
+        first_name: data.ownerName,
+        last_name: data.ownerName,
+        username: data.email,
+        password: data.password,
+        address: data.address,
+      },
+      shop_details: {
+        business_name: data.businessName,
+        hero_text: data.heroText,
+        hero_image: data.heroImage,
+        logo: data.logo,
+        color_palette: data.colorPalette,
+      },
+    };
+  }
+
   async function send_onboarding_data(data: OnboardingData) {
     const onboarding_endpoint = BACKEND_API_ROUTES.ONBOARDING
-    const resp = await apipost(onboarding_endpoint, data);
+    const serialized_data = serialize_onboarding_data(data)
+    const resp = await apipost(onboarding_endpoint, serialized_data);
     if (!resp) {
         console.error("Error sending on boarding data:");
         setIsCreating(false);
