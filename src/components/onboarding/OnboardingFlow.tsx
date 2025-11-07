@@ -28,6 +28,7 @@ export interface OnboardingData {
   ownerName: string;
   email: string;
   password: string;
+  address: string;
 }
 
 export function OnboardingFlow() {
@@ -43,6 +44,7 @@ export function OnboardingFlow() {
     ownerName: "",
     email: "",
     password: "",
+    address: "",
   });
 
   const steps = [
