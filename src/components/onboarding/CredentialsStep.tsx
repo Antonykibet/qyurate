@@ -7,7 +7,7 @@ import { Loader2, CheckCircle2, Store } from "lucide-react";
 import { OnboardingData } from "./OnboardingFlow";
 
 import apipost from "../../utils/api/api";
-import { BACKEND_API_ROUTES } from "../../utils/api/api_routes";
+import { BACKEND_API_ROUTES,} from "../../utils/api/api_routes";
 
 interface CredentialsStepProps {
   data: OnboardingData;
@@ -28,7 +28,7 @@ export function CredentialsStep({
   const [creationStep, setCreationStep] = useState("");
 
   async function send_onboarding_data(data: OnboardingData) {
-    const onboarding_endpoint = BACKEND_API_ROUTES.SITE_CONFIG
+    const onboarding_endpoint = BACKEND_API_ROUTES.ONBOARDING
     const resp = await apipost(onboarding_endpoint, data);
     if (!resp) {
         console.error("Error sending on boarding data:");
